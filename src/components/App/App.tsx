@@ -1,0 +1,47 @@
+// import css from './App.module.css';
+import toast, { Toaster } from 'react-hot-toast';
+import type { Movie } from '../../types/movie';
+import { useState } from 'react';
+import fetchMovies from '../../services/movieService';
+import SearchBar from '../SearchBar/SearchBar';
+import MovieGrid from '../MovieGrid/MovieGrid';
+import Loader from '../Loader/Loader';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+
+
+export default function App() {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const onSubmit = async (query: string) => {
+    try {
+      setMovies([]);
+      setIsError(false);
+      setIsLoading(true);
+      const movieData = await fetchMovies({ query });
+      setIsLoading(false);
+      setMovies(movieData);
+      // console.log(movieData);
+
+      if (movieData.length === 0) {
+        toast.error("No movies found for your request.");
+        return
+      };
+    }
+    catch {
+      setIsError(true);
+    }
+  };
+
+  return (
+    <>
+      <Toaster position="top-center"/>
+      <SearchBar onSubmit={onSubmit} />
+      {isLoading && <Loader />}
+      {isError && <ErrorMessage/>}
+      {movies.length > 0 && <MovieGrid movies={movies}/>}
+    </>
+  )
+}
+
