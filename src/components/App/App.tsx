@@ -37,7 +37,10 @@ export default function App() {
   };
 
   const openModal = () => setIsOpenModal(true);
-  const closeModal = () => setIsOpenModal(false); 
+  const closeModal = () => {
+    setIsOpenModal(false);
+    setSelectedMovie(null);
+  }
 
   const handleSelectedMovie = (movie: Movie) => {
     setSelectedMovie(movie);
