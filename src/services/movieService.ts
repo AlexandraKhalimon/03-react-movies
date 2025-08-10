@@ -5,13 +5,13 @@ interface MoviesHttpResponse {
     results: Movie[]
 }
 
-interface fetchMoviesParams {
+interface FetchMoviesParams {
     query: string;
 }
 
 const MY_API = import.meta.env.VITE_TMDB_TOKEN;
 
-const fetchMovies = async ({ query }: fetchMoviesParams) => {
+const fetchMovies = async ({ query }: FetchMoviesParams): Promise<Movie[]> => {
     const response = await axios.get<MoviesHttpResponse>('https://api.themoviedb.org/3/search/movie',
         {
             params: { query },
