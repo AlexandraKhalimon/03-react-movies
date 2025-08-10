@@ -22,7 +22,7 @@ export default function App() {
       setMovies([]);
       setIsError(false);
       setIsLoading(true);
-      const movieData = await fetchMovies({ query });
+      const movieData = await fetchMovies(query);
       setIsLoading(false);
       setMovies(movieData);
 
